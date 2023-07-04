@@ -153,6 +153,12 @@ func (p *Plugin) handleTelemetry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if telemetryRequest == nil {
+		p.API.LogError("Invalid request body")
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", errors.New("invalid request body"))
+		return
+	}
+
 	if telemetryRequest.Event != "" {
 		p.trackFrontend(userID, telemetryRequest.Event, telemetryRequest.Properties)
 	}
@@ -174,6 +180,7 @@ func (p *Plugin) handleAdd(w http.ResponseWriter, r *http.Request) {
 
 	var addRequest *addAPIRequest
 	decoder := json.NewDecoder(r.Body)
+	fmt.Printf("\n decoder=%+v", decoder)
 	err := decoder.Decode(&addRequest)
 	if err != nil {
 		p.API.LogError("Unable to decode JSON err=" + err.Error())
@@ -181,7 +188,17 @@ func (p *Plugin) handleAdd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Print("\n after decoder.Decode")
+
 	senderName := p.listManager.GetUserName(userID)
+
+	fmt.Printf("\n handleAdd-1%+v ", addRequest)
+
+	if addRequest == nil {
+		p.API.LogError("Invalid request body")
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", errors.New("invalid request body"))
+		return
+	}
 
 	if addRequest.SendTo == "" {
 		_, err = p.listManager.AddIssue(userID, addRequest.Message, addRequest.Description, addRequest.PostID)
@@ -201,12 +218,16 @@ func (p *Plugin) handleAdd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Print("\n handleAdd-2")
+
 	receiver, appErr := p.API.GetUserByUsername(addRequest.SendTo)
 	if appErr != nil {
 		p.API.LogError("username not valid, err=" + appErr.Error())
 		p.handleErrorWithCode(w, http.StatusInternalServerError, "Unable to find user", appErr)
 		return
 	}
+
+	fmt.Print("\n handleAdd-3")
 
 	if receiver.Id == userID {
 		_, err = p.listManager.AddIssue(userID, addRequest.Message, addRequest.Description, addRequest.PostID)
@@ -225,6 +246,8 @@ func (p *Plugin) handleAdd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Print("\n handleAdd-4")
+
 	receiverAllowIncomingTaskRequestsPreference, err := p.getAllowIncomingTaskRequestsPreference(receiver.Id)
 	if err != nil {
 		p.API.LogError("Error when getting allow incoming task request preference, err=", err)
@@ -236,12 +259,16 @@ func (p *Plugin) handleAdd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Print("\n handleAdd-5")
+
 	issueID, err := p.listManager.SendIssue(userID, receiver.Id, addRequest.Message, addRequest.Description, addRequest.PostID)
 	if err != nil {
 		p.API.LogError("Unable to send issue err=" + err.Error())
 		p.handleErrorWithCode(w, http.StatusInternalServerError, "Unable to send issue", err)
 		return
 	}
+
+	fmt.Print("\n handleAdd-6")
 
 	p.trackSendIssue(userID, sourceWebapp, addRequest.PostID != "")
 
@@ -349,6 +376,12 @@ func (p *Plugin) handleEdit(w http.ResponseWriter, r *http.Request) {
 	}
 	r.Body.Close()
 
+	if editRequest == nil {
+		p.API.LogError("Invalid request body")
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", errors.New("invalid request body"))
+		return
+	}
+
 	foreignUserID, list, oldMessage, err := p.listManager.EditIssue(userID, editRequest.ID, editRequest.Message, editRequest.Description)
 	if err != nil {
 		p.API.LogError("Unable to edit message: err=" + err.Error())
@@ -394,6 +427,12 @@ func (p *Plugin) handleChangeAssignment(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	r.Body.Close()
+
+	if changeRequest == nil {
+		p.API.LogError("Invalid request body")
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", errors.New("invalid request body"))
+		return
+	}
 
 	if changeRequest.SendTo == "" {
 		http.Error(w, "No user specified", http.StatusBadRequest)
@@ -450,6 +489,12 @@ func (p *Plugin) handleAccept(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if acceptRequest == nil {
+		p.API.LogError("Invalid request body")
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", errors.New("invalid request body"))
+		return
+	}
+
 	todoMessage, sender, err := p.listManager.AcceptIssue(userID, acceptRequest.ID)
 	if err != nil {
 		p.API.LogError("Unable to accept issue err=" + err.Error())
@@ -483,6 +528,12 @@ func (p *Plugin) handleComplete(w http.ResponseWriter, r *http.Request) {
 	if err := decoder.Decode(&completeRequest); err != nil {
 		p.API.LogError("Unable to decode JSON err=" + err.Error())
 		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", err)
+		return
+	}
+
+	if completeRequest == nil {
+		p.API.LogError("Invalid request body")
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", errors.New("invalid request body"))
 		return
 	}
 
@@ -528,6 +579,12 @@ func (p *Plugin) handleRemove(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		p.API.LogError("Unable to decode JSON err=" + err.Error())
 		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", err)
+		return
+	}
+
+	if removeRequest == nil {
+		p.API.LogError("Invalid request body")
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", errors.New("invalid request body"))
 		return
 	}
 
@@ -579,6 +636,12 @@ func (p *Plugin) handleBump(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		p.API.LogError("Unable to decode JSON err=" + err.Error())
 		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", err)
+		return
+	}
+
+	if bumpRequest == nil {
+		p.API.LogError("Invalid request body")
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to decode JSON", errors.New("invalid request body"))
 		return
 	}
 
