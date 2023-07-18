@@ -122,7 +122,7 @@ func (p *Plugin) initializeAPI() {
 	p.router.HandleFunc("/bump", p.checkAuth(p.handleBump)).Methods(http.MethodPost)
 	p.router.HandleFunc("/telemetry", p.checkAuth(p.handleTelemetry)).Methods(http.MethodPost)
 	p.router.HandleFunc("/config", p.checkAuth(p.handleConfig)).Methods(http.MethodGet)
-	p.router.HandleFunc("/edit", p.checkAuth(p.handleEdit)).Methods(http.MethodPost)
+	p.router.HandleFunc("/edit", p.checkAuth(p.handleEdit)).Methods(http.MethodPut)
 	p.router.HandleFunc("/change_assignment", p.checkAuth(p.handleChangeAssignment)).Methods(http.MethodPost)
 
 	// 404 handler
