@@ -168,8 +168,8 @@ func (p *Plugin) handleTelemetry(w http.ResponseWriter, r *http.Request) {
 
 	telemetryRequest, err := GetTelemetryPayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get telemetry payload from json=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get telemetry payload from json.", err)
+		p.API.LogError("Unable to get telemetry payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get telemetry payload from JSON.", err)
 		return
 	}
 
@@ -188,8 +188,8 @@ func (p *Plugin) handleAdd(w http.ResponseWriter, r *http.Request) {
 
 	addRequest, err := GetAddIssuePayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get add issue payload from json=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get add issue payload from json.", err)
+		p.API.LogError("Unable to get add issue payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get add issue payload from JSON.", err)
 		return
 	}
 
@@ -345,8 +345,8 @@ func (p *Plugin) handleEdit(w http.ResponseWriter, r *http.Request) {
 
 	editRequest, err := GetEditIssuePayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get edit issue payload from json=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get edit issue payload from json.", err)
+		p.API.LogError("Unable to get edit issue payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get edit issue payload from JSON.", err)
 		return
 	}
 
@@ -385,8 +385,8 @@ func (p *Plugin) handleChangeAssignment(w http.ResponseWriter, r *http.Request) 
 
 	changeRequest, err := GetChangeAssignmentPayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get change request payload from json=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get change request from json.", err)
+		p.API.LogError("Unable to get change request payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get change request from JSON.", err)
 		return
 	}
 
@@ -431,8 +431,8 @@ func (p *Plugin) handleAccept(w http.ResponseWriter, r *http.Request) {
 
 	acceptRequest, err := GetAcceptRequestPayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get accept request payload from json=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get accept request from json.", err)
+		p.API.LogError("Unable to get accept request payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get accept request from JSON.", err)
 		return
 	}
 
@@ -463,13 +463,13 @@ func (p *Plugin) handleComplete(w http.ResponseWriter, r *http.Request) {
 
 	completeRequest, err := GetCompleteIssuePayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get complete request payload from json=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get complete request from json.", err)
+		p.API.LogError("Unable to get complete request payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get complete request from JSON.", err)
 		return
 	}
 
 	if err := IsCompleteIssuePayloadValid(completeRequest); err != nil {
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to validate complete request payload.", err)
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to validate complete issue request payload.", err)
 		return
 	}
 
@@ -503,13 +503,13 @@ func (p *Plugin) handleRemove(w http.ResponseWriter, r *http.Request) {
 
 	removeRequest, err := GetRemoveIssuePayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get remove request payload from json=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get remove request from json.", err)
+		p.API.LogError("Unable to get remove request payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get remove request from JSON.", err)
 		return
 	}
 
 	if err := IsRemoveIssuePayloadValid(removeRequest); err != nil {
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to validate remove request payload.", err)
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to validate remove issue request payload.", err)
 		return
 	}
 
@@ -549,8 +549,8 @@ func (p *Plugin) handleBump(w http.ResponseWriter, r *http.Request) {
 
 	bumpRequest, err := GetBumpIssuePayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get bump request payload from json=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get bump request from json.", err)
+		p.API.LogError("Unable to get bump request payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get bump request from JSON.", err)
 		return
 	}
 
