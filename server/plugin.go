@@ -463,8 +463,8 @@ func (p *Plugin) handleComplete(w http.ResponseWriter, r *http.Request) {
 
 	completeRequest, err := GetCompleteIssuePayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get complete request payload from JSON err=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get complete request from JSON.", err)
+		p.API.LogError("Unable to get complete issue request payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get complete issue request from JSON.", err)
 		return
 	}
 
@@ -503,8 +503,8 @@ func (p *Plugin) handleRemove(w http.ResponseWriter, r *http.Request) {
 
 	removeRequest, err := GetRemoveIssuePayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get remove request payload from JSON err=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get remove request from JSON.", err)
+		p.API.LogError("Unable to get remove issue request payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get remove issue request from JSON.", err)
 		return
 	}
 
@@ -549,8 +549,8 @@ func (p *Plugin) handleBump(w http.ResponseWriter, r *http.Request) {
 
 	bumpRequest, err := GetBumpIssuePayloadFromJSON(r.Body)
 	if err != nil {
-		p.API.LogError("Unable to get bump request payload from JSON err=" + err.Error())
-		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get bump request from JSON.", err)
+		p.API.LogError("Unable to get bump issue request payload from JSON err=" + err.Error())
+		p.handleErrorWithCode(w, http.StatusBadRequest, "Unable to get bump issue request from JSON.", err)
 		return
 	}
 
